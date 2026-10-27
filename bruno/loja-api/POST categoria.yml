@@ -1,0 +1,20 @@
+info:
+  name: POST categoria
+  type: http
+
+http:
+  method: POST
+  url: http://localhost:3000/categoria
+  body:
+    type: json
+    data: |-
+      {
+        "nome": "Informática"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

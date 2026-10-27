@@ -1,0 +1,25 @@
+info:
+  name: POST produto
+  type: http
+
+http:
+  method: POST
+  url: http://localhost:3000/produto
+  body:
+    type: json
+    data: |-
+      {
+        "nome":"Notebook",
+        "descricao":"Notebook para desenvolvimento",
+        "preco":3500,
+        "estoque":10,
+        "categoriaId":1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+​
