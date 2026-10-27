@@ -1,114 +1,139 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Loja API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST de produtos e categorias, feita com NestJS, Prisma 7 e SQLite.
+Projeto da disciplina Backend 2 (Desenvolvimento de APIs com NestJS).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Requisitos
 
-## Description
+- Node.js 22 ou superior (confira com `node --version`)
+- npm (já vem com o Node)
+- Git
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Como rodar
 
-## Project setup
+**1. Baixe o projeto**
 
 ```bash
-$ npm install
+git clone https://github.com/Lunnifsp/loja-api.git
+cd loja-api
 ```
 
-## Compile and run the project
+**2. Instale as dependências**
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+**3. Crie o arquivo de variáveis de ambiente**
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+**4. Gere o cliente do Prisma e crie o banco**
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma generate
+npx prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Isso cria o arquivo `dev.db` (banco SQLite) com as tabelas `Categoria` e `Produto`.
 
-## Observability
+**5. Inicie o servidor**
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+```bash
+npm run start:dev
+```
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+Quando aparecer `Nest application successfully started`, a API está no ar em
+`http://localhost:3000`.
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+## Rotas
 
-## Resources
+### Categoria
 
-Check out a few resources that may come in handy when working with NestJS:
+| Método | Rota | O que faz |
+|---|---|---|
+| POST | `/categoria` | Cria uma categoria |
+| GET | `/categoria` | Lista as categorias (com seus produtos) |
+| GET | `/categoria/:id` | Busca uma categoria |
+| PATCH | `/categoria/:id` | Atualiza uma categoria |
+| DELETE | `/categoria/:id` | Remove uma categoria |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observer](https://observer.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Produto
 
-## Support
+| Método | Rota | O que faz |
+|---|---|---|
+| POST | `/produto` | Cria um produto |
+| GET | `/produto` | Lista os produtos (com a categoria) |
+| GET | `/produto/disponiveis` | Lista só os produtos com estoque maior que 0 |
+| GET | `/produto/:id` | Busca um produto |
+| PATCH | `/produto/:id` | Atualiza um produto |
+| DELETE | `/produto/:id` | Remove um produto |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Exemplos de corpo (JSON)
 
-## Stay in touch
+Crie a categoria **antes** do produto, porque todo produto precisa de uma `categoriaId`.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Categoria:
 
-## License
+```json
+{ "nome": "Informática" }
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Produto:
+
+```json
+{
+  "nome": "Notebook",
+  "descricao": "Notebook para desenvolvimento",
+  "preco": 3500,
+  "estoque": 10,
+  "categoriaId": 1
+}
+```
+
+Dados inválidos devolvem `400` com a lista de erros, e ids que não existem devolvem `404`.
+
+## Testando com o Bruno
+
+1. Deixe o servidor rodando (`npm run start:dev`).
+2. No Bruno (ou na extensão do VS Code), escolha **Open Collection**.
+3. Selecione a pasta `bruno/loja-api` deste projeto.
+4. Envie as requisições. Comece pelo `POST categoria` e depois o `POST produto`.
+
+No Windows, prefira o Bruno ao `curl`: o `curl` do Git Bash pode quebrar os acentos.
+
+## Ver o banco de dados (Prisma Studio)
+
+No Git Bash do Windows, dentro da pasta do projeto:
+
+```bash
+npx prisma studio --url "file:///$(pwd -W)/dev.db"
+```
+
+Abra o endereço que aparecer no terminal (por exemplo, `http://localhost:51212`).
+Pare com `Ctrl + C`.
+
+## Problemas comuns
+
+| Erro | Solução |
+|---|---|
+| `Environment variable not found: DATABASE_URL` | Faltou o passo 3 (`cp .env.example .env`). |
+| `Cannot find type definition file for 'node'` | Rode `npm install` de novo. |
+| Porta 3000 em uso | Pare o outro servidor com `Ctrl + C`, ou use outra porta: `PORT=3001 npm run start:dev`. |
+| `Cannot find module ... generated/prisma` | Rode `npx prisma generate`. |
+| `GET /produto` volta `[]` | O banco está vazio. Crie uma categoria e depois os produtos. |
+
+## Estrutura
+
+```
+src/
+  produto/      controller, service, DTOs e módulo de produtos
+  categoria/    controller, service, DTOs e módulo de categorias
+  prisma/       PrismaService (conexão com o banco)
+prisma/
+  schema.prisma modelos Categoria e Produto
+  migrations/   histórico de alterações do banco
+bruno/          coleção de requisições para o Bruno
+```
